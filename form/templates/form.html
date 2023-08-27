@@ -1,0 +1,140 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <title>Ajax Form Submissions</title>
+    <style>
+        .custom-form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            max-width: 300px; /* Adjust as needed */
+            margin: 0 auto;   /* To center the form */
+        }
+          
+        .custom-button {
+            width: 100%;
+            margin-top: 10px; /* Adding some spacing between input and button */
+        }
+
+        .custom-heading {
+            {% comment %} color: ; /* Text color for the heading */ {% endcomment %}
+            color:green;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        {% comment %} body {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1516937941344-00b4e0337589?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNoZW1pY2FsJTIwaW5kdXN0cnl8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba( filter: blur(20px);0, 0, 0, 0.6);
+            z-index: -1;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        } {% endcomment %}
+        
+          
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-3 mt-3">Student Infos Industrial Tour</h1>
+        <p class="ml-3 custom-heading"></p>
+        <form class="mt-1" id="post_form">
+            {% csrf_token %}
+            <div class="mb-3">   
+                <input type="text" required class="form-control" id="full_name" placeholder="Full Name">
+            </div>
+            <div class="mb-3">
+                <input type="text" required class="form-control" id="reg_no" placeholder="Registration No">
+            </div>
+            <div class="mb-3">
+              <input type="email" required class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="mb-3">
+                <input type="text" required class="form-control" id="fathers_name" placeholder="Father's Name">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="mothers_name" class="form-control" placeholder="Mother's Name">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="present_address" class="form-control" placeholder="Present Address">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="permanant_address" class="form-control" placeholder="Permanant Address">
+            </div>
+            <div class="mb-3">
+                <input type="text" required  class="form-control" id="personal_contact_no" placeholder="Personal Contact No.">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="gurdian_contact_no" class="form-control" placeholder="Gurdian Contact No.">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="t_shirt_size" class="form-control" placeholder="T-Shirt Size">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="hobby" class="form-control" placeholder="Your Hobby">
+            </div>
+            <div class="mb-3">
+                <input type="text" required id="aim_in_life" class="form-control" placeholder="Your aim in life">
+            </div>
+            <button type="submit" class="btn btn-success custom-button">Submit</button>
+          </form>
+    </div>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        //write my Ajax is here
+        $(document).on('submit','#post_form', function(e){
+            e.preventDefault();
+            //ajax has method,url,type, data , success
+            $.ajax({
+                type:"POST",
+                url:"/create",
+                data: {
+                    //full_name,
+                    full_name:$('#full_name').val(),
+                    reg_no:$('#reg_no').val(),
+                    email:$('#email').val(),
+                    fathers_name:$('#fathers_name').val(),
+                    mothers_name:$('#mothers_name').val(),
+                    present_address:$('#present_address').val(),
+                    permanant_address:$('#permanant_address').val(),
+                    personal_contact_no:$('#personal_contact_no').val(),
+                    gurdian_contact_no:$('#gurdian_contact_no').val(), 
+                    t_shirt_size:$('#t_shirt_size').val(), 
+                    hobby:$('#hobby').val(), 
+                    aim_in_life:$('#aim_in_life').val(),
+                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                success: function(data){
+                    $('p').html(data);
+                    //clear form after submit
+                    form.find('input[type="text"], textarea').val('');
+           
+                }
+            })
+        })
+
+    </script>
+  </body>
+</html>
