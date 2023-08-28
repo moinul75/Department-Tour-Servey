@@ -1,140 +1,114 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Industrial Tour Infos</title>
+    <!--Tailwind Css Cdn link-->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <!--Ajax link here -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
-    <title>Ajax Form Submissions</title>
-    <style>
-        .custom-form {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            max-width: 300px; /* Adjust as needed */
-            margin: 0 auto;   /* To center the form */
-        }
-          
-        .custom-button {
-            width: 100%;
-            margin-top: 10px; /* Adding some spacing between input and button */
-        }
-
-        .custom-heading {
-            {% comment %} color: ; /* Text color for the heading */ {% endcomment %}
-            color:green;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        {% comment %} body {
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1516937941344-00b4e0337589?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNoZW1pY2FsJTIwaW5kdXN0cnl8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
-            background-size: cover;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba( filter: blur(20px);0, 0, 0, 0.6);
-            z-index: -1;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        } {% endcomment %}
-        
-          
-    </style>
-  </head>
-  <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-3 mt-3">Student Infos Industrial Tour</h1>
-        <p class="ml-3 custom-heading"></p>
-        <form class="mt-1" id="post_form">
-            {% csrf_token %}
-            <div class="mb-3">   
-                <input type="text" required class="form-control" id="full_name" placeholder="Full Name">
-            </div>
-            <div class="mb-3">
-                <input type="text" required class="form-control" id="reg_no" placeholder="Registration No">
-            </div>
-            <div class="mb-3">
-              <input type="email" required class="form-control" id="email" placeholder="Email">
-            </div>
-            <div class="mb-3">
-                <input type="text" required class="form-control" id="fathers_name" placeholder="Father's Name">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="mothers_name" class="form-control" placeholder="Mother's Name">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="present_address" class="form-control" placeholder="Present Address">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="permanant_address" class="form-control" placeholder="Permanant Address">
-            </div>
-            <div class="mb-3">
-                <input type="text" required  class="form-control" id="personal_contact_no" placeholder="Personal Contact No.">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="gurdian_contact_no" class="form-control" placeholder="Gurdian Contact No.">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="t_shirt_size" class="form-control" placeholder="T-Shirt Size">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="hobby" class="form-control" placeholder="Your Hobby">
-            </div>
-            <div class="mb-3">
-                <input type="text" required id="aim_in_life" class="form-control" placeholder="Your aim in life">
-            </div>
-            <button type="submit" class="btn btn-success custom-button">Submit</button>
-          </form>
+</head>
+<body class="bg-indigo-200">
+<div class="container mx-auto mt-10">
+    
+    <div id="errorAlert" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2 hidden" role="alert">
+        <p class="font-bold">Error!</p>
+        <p class="block sm:inline">There was an error.</p>
+        <button class="absolute top-0 right-0 px-3 py-1" id="close-alert">
+            <span>&times;</span>
+        </button>
     </div>
-
-  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    
+    <div id="successAlert" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-2 hidden" role="alert">
+        <p class="font-bold">Success!</p>
+        <p class="block sm:inline sus"></p>
+        <button class="absolute top-0 right-0 px-3 py-1" id="close-alert">
+            <span>&times;</span>
+        </button>
+    </div>
+    <form class="mt-4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="post_form">
+        <h1 class="text-3xl font-bold text-center mb-6">Student Infos Industrial Tour</h1>
+        {% csrf_token %}
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="full_name" placeholder="Full Name">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="reg_no" placeholder="Registration No">
+        <input type="email" required class="w-full px-4 py-2 border rounded mb-3" id="email" placeholder="Email">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="fathers_name" placeholder="Father's Name">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="mothers_name" placeholder="Mother's Name">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="present_address" placeholder="Present Address">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="permanant_address" placeholder="Permanant Address">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="personal_contact_no" placeholder="Personal Contact No.">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="gurdian_contact_no" placeholder="Guardian Contact No.">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="t_shirt_size" placeholder="T-Shirt Size">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="hobby" placeholder="Your Hobby">
+        <input type="text" required class="w-full px-4 py-2 border rounded mb-3" id="aim_in_life" placeholder="Your aim in life">
+        <button type="submit" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded custom-button  hover:-translate-y-1 hover:scale-105">
+            Submit
+        </button>
+        
+        
+        
+    </form>
+</div>
     <script type="text/javascript">
-        //write my Ajax is here
-        $(document).on('submit','#post_form', function(e){
-            e.preventDefault();
-            //ajax has method,url,type, data , success
-            $.ajax({
-                type:"POST",
-                url:"/create",
-                data: {
-                    //full_name,
-                    full_name:$('#full_name').val(),
-                    reg_no:$('#reg_no').val(),
-                    email:$('#email').val(),
-                    fathers_name:$('#fathers_name').val(),
-                    mothers_name:$('#mothers_name').val(),
-                    present_address:$('#present_address').val(),
-                    permanant_address:$('#permanant_address').val(),
-                    personal_contact_no:$('#personal_contact_no').val(),
-                    gurdian_contact_no:$('#gurdian_contact_no').val(), 
-                    t_shirt_size:$('#t_shirt_size').val(), 
-                    hobby:$('#hobby').val(), 
-                    aim_in_life:$('#aim_in_life').val(),
-                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
-                },
-                success: function(data){
-                    $('p').html(data);
-                    //clear form after submit
-                    form.find('input[type="text"], textarea').val('');
-           
-                }
-            })
-        })
+        $(document).ready(function() {
+            // Close the error alert when the close button is clicked
+            $("#close-alert").click(function() {
+                $("#error-alert").fadeOut();
+            });
+        });
 
-    </script>
+        // Submit the form using AJAX
+        $(document).on('submit', '#post_form', function(e) {
+            e.preventDefault();
+            
+            // Clear previous alerts and errors
+            $("#success-alert").addClass('hidden');
+            $("#error-alert").addClass('hidden');
+            $("#error-alert").text('');
+
+            // Gather form data
+            var formData = {
+                full_name: $('#full_name').val(),
+                reg_no: $('#reg_no').val(),
+                email: $('#email').val(),
+                fathers_name: $('#fathers_name').val(),
+                mothers_name: $('#mothers_name').val(),
+                present_address: $('#present_address').val(),
+                permanant_address: $('#permanant_address').val(),
+                personal_contact_no: $('#personal_contact_no').val(),
+                gurdian_contact_no: $('#gurdian_contact_no').val(),
+                t_shirt_size: $('#t_shirt_size').val(),
+                hobby: $('#hobby').val(),
+                aim_in_life: $('#aim_in_life').val(),
+                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+            };
+
+                // Send the AJAX request
+            $.ajax({
+                type: "POST",
+                url: "/create",
+                data: formData,
+                success: function(data) {
+                    if (data.success) {
+                        // Success case
+                        document.getElementById('successAlert').classList.remove('hidden');
+                        document.getElementById('errorAlert').classList.add('hidden');
+                        $('.sus').html(data.success);
+                    } else if (data.error) {
+                        // Error case
+                        document.getElementById('errorAlert').textContent = data.error;
+                        document.getElementById('errorAlert').classList.remove('hidden');
+                        document.getElementById('successAlert').classList.add('hidden');
+                    }
+                    // Clear form inputs
+                    $('#post_form')[0].reset();
+                }
+            });
+    
+        });
+    </script> 
   </body>
 </html>

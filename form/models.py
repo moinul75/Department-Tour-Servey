@@ -5,7 +5,9 @@ from django.db import models
 class Student_Infos(models.Model):
     full_name = models.CharField(max_length=255)
     reg_no = models.CharField(max_length=20)
-    email = models.EmailField(max_length=200,unique=True)
+    email = models.EmailField(max_length=200, unique=True, error_messages={
+        'unique': "This email address is already in use."
+    })
     fathers_name = models.CharField(max_length=200)
     mothers_name = models.CharField(max_length=200)
     present_address = models.CharField(max_length=200)
@@ -15,8 +17,15 @@ class Student_Infos(models.Model):
     t_shirt_size = models.CharField(max_length=15)
     hobby = models.CharField(max_length=200)
     aim_in_life = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = "Student Info"
     
     def __str__(self) -> str:
         return self.full_name
+    
+    
     
     
