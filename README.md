@@ -11,7 +11,7 @@ so this will create a problem for them. At this moment they feel they need a sol
 **Functionalities:**
  
 
-**1. admin can logged in and see the infomation has all permission to do
+**1. admin can logged in and see the infomation has all permission to do**
 
 **2. User can see the form and able to submit their info once submit they will get the success alert message** 
 
