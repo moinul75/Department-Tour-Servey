@@ -75,11 +75,12 @@ def create(request):
         permanant_address = request.POST['permanant_address']
         personal_contact_no = request.POST['personal_contact_no']
         gurdian_contact_no = request.POST['gurdian_contact_no']
+        favourite_color = request.POST['favourite_color']
         t_shirt_size = request.POST['t_shirt_size']
         hobby = request.POST['hobby']
         aim_in_life = request.POST['aim_in_life'] 
         try:
-            student_infos = Student_Infos(full_name=full_name,reg_no=reg_no,email=email,fathers_name=fathers_name,mothers_name=mothers_name,present_address=present_address,permanant_address=permanant_address,personal_contact_no=personal_contact_no,gurdians_contact_no=gurdian_contact_no,t_shirt_size=t_shirt_size,hobby=hobby,aim_in_life=aim_in_life)
+            student_infos = Student_Infos(full_name=full_name,reg_no=reg_no,email=email,fathers_name=fathers_name,mothers_name=mothers_name,present_address=present_address,permanant_address=permanant_address,personal_contact_no=personal_contact_no,gurdians_contact_no=gurdian_contact_no,favourite_color=favourite_color,t_shirt_size=t_shirt_size,hobby=hobby,aim_in_life=aim_in_life)
             student_infos.save()
             #now make a pdf 
             make_pdf(student_infos)

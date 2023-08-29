@@ -14,6 +14,7 @@ class Student_Infos(models.Model):
     permanant_address = models.CharField(max_length=200)
     personal_contact_no = models.CharField(max_length=15)
     gurdians_contact_no = models.CharField(max_length=15)
+    favourite_color = models.CharField(max_length=20)
     t_shirt_size = models.CharField(max_length=15)
     hobby = models.CharField(max_length=200)
     aim_in_life = models.CharField(max_length=200)
